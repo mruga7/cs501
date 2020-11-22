@@ -44,12 +44,17 @@ def newpage(request):
     title=request.POST['t']
     content=request.POST['c']
     e=util.list_entries()
-    for i in e:
-        if i==title:
-            return  HttpResponse("<h1>Page already exists</h1>")
-        else:
-            util.save_entry(title, content)  
-        
+
+    if request.POST:
+            for i in e:
+                if i==title:
+                    return  HttpResponse("<h1>Page already exists</h1>")
+                else:    
+                    util.save_entry(title, content)  
+
+            
+    else:
+            return render(request,"encyclopedia/newpage.html")
 
 def hey(request):
     return render(request,"encyclopedia/hey.html")    
