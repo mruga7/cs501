@@ -41,16 +41,16 @@ def search(request):
         return  HttpResponse("<h1>WRONG PAGE</h1>")
 
 def newpage(request):
-    title=request.POST['t']
-    content=request.POST['c']
+    
     e=util.list_entries()
-
+    
     if request.POST:
             for i in e:
-                if i==title:
+                if i==request.POST['t']:
                     return  HttpResponse("<h1>Page already exists</h1>")
                 else:    
-                    util.save_entry(title, content)  
+                    util.save_entry(request.POST['t'],request.POST['c'])  
+                    return HttpResponseRedirect(reverse("MyApp:index"))
 
             
     else:
