@@ -41,7 +41,15 @@ def search(request):
         return  HttpResponse("<h1>WRONG PAGE</h1>")
 
 def newpage(request):
-    return render(request,"encyclopedia/newpage.html")    
+    title=request.POST['t']
+    content=request.POST['c']
+    e=util.list_entries()
+    for i in e:
+        if i==title:
+            return  HttpResponse("<h1>Page already exists</h1>")
+        else:
+            util.save_entry(title, content)  
+        
 
 def hey(request):
     return render(request,"encyclopedia/hey.html")    

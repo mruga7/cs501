@@ -1,9 +1,13 @@
 {% extends "encyclopedia/layout.html" %}
 {% block body %}
-<form action="{% url 'MyApp:newpage' %}" method="post">
+
+<form action="{% url 'MyApp:newpage' %}" method="POST">
     {% csrf_token %}
-    <textarea  rows="4" cols="40"></textarea>
-    <input type="submit">
+    <input type= "text" placeholder="Title" name="t" style="position:absolute;top:0px">
+    <br>
+    <input type="button" value="Save" name="c" style="position:absolute;top:700px;">
+    <textarea></textarea>
+    
 </form>
-<a href="{% url 'MyApp:index' %}">Index</a>"
+<!---<a href="{% url 'MyApp:index' %}">Index</a>-->
 {% endblock %}
