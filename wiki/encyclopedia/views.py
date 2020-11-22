@@ -29,7 +29,7 @@ def search(request):
     e=util.list_entries()
     text=request.POST['q']
     for i in e:
-        if e==text:
+        if i==text:
     
             return render(request,"encyclopedia/searchresult.html",
                {
