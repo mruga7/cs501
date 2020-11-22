@@ -1,5 +1,5 @@
 {% extends "encyclopedia/layout.html" %}
-{% add a new page %}
+{% block newpage %}
 <form action="{% url 'MyApp:newpage' %}" method="post">
     {% csrf_token %}
     <textarea name="Add your text here" rows="4" cols="50"></textarea>
