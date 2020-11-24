@@ -21,8 +21,12 @@ def search(request):
     e=util.list_entries()
     text=request.POST['q']
     foundentries=[]
-    
-    if text not in e:
+    if text in e:
+        return render(request,"encyclopedia/content.html",{
+            "title":text,
+            "content":markdowner.convert(util.get_entry(text))}
+            )       
+    elif text not in e:
         for i in e:    
             if i.startswith(text):
                 foundentries.append(i)  
@@ -34,11 +38,7 @@ def search(request):
                  })
         else:
             return HttpResponse("<h1> WRONG PAGE </h1> ")         
-    elif text in e:
-        return render(request,"encyclopedia/content.html",{
-            "title":text,
-            "content":markdowner.convert(util.get_entry(text))}
-            )       
+    
     else:
         return HttpResponse("<h1>WRONG PAGE</h1>")
     
