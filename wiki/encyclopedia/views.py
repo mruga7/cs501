@@ -21,12 +21,8 @@ def search(request):
     e=util.list_entries()
     text=request.POST['q']
     foundentries=[]
-    if text in e:
-        return render(request,"encyclopedia/content.html",{
-            "title":text,
-            "content":markdowner.convert(util.get_entry(text))}
-            )       
-    elif text not in e:
+    
+    if text not in e:
         for i in e:    
             if i.startswith(text):
                 foundentries.append(i)  
@@ -37,10 +33,17 @@ def search(request):
                  "entries":foundentries
                  })
         else:
-            return HttpResponse("<h1> WRONG PAGE </h1> ")         
+            return HttpResponse("<h1> ERROR: PAGE DOES NOT EXIST </h1> ")         
+
+    elif text in e:
+        return render(request,"encyclopedia/content.html",{
+            "title":text,
+            "content":markdowner.convert(util.get_entry(text))}
+            )                    
+               
     
     else:
-        return HttpResponse("<h1>WRONG PAGE</h1>")
+        return HttpResponse("<h1>ERROR: PAGE DOES NOT EXIST </h1>")
     
 
 
@@ -55,7 +58,7 @@ def newpage(request):
         i=request.POST['t']
         if i in e:
                 
-                return  HttpResponse("<h1>Page already exists</h1>")
+                return  HttpResponse("<h1>PAGE ALREADY EXISTS </h1>")
         else:    
                 util.save_entry(request.POST['t'],request.POST['c'])  
                 return HttpResponseRedirect(reverse("MyApp:index"))
@@ -77,7 +80,7 @@ def edit(request,title):
         return render(request,"encyclopedia/edit.html",
         {
         "title":title,
-        "content":markdowner.convert(util.get_entry(title))
+        "content":util.get_entry(title)
         })  
 
 def entry_page(request,title):
@@ -91,7 +94,7 @@ def entry_page(request,title):
              })
     
     else:
-        return HttpResponse("<h1>WRONG PAGE</h1>")     
+        return HttpResponse("<h1>ERROR: PAGE DOES NOT EXIST</h1>")     
 
 def random_page(request):
     page=random.choice(util.list_entries())
@@ -101,4 +104,9 @@ def random_page(request):
 
                 })
 
+def searchresult(request,title):
+    return render(request,"encyclopedia/content.html",{
+                "title":title,
+                "content":markdowner.convert(util.get_entry(title))
 
+                })
